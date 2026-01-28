@@ -1,3 +1,8 @@
 FROM quay.io/centos-bootc/centos-bootc:stream10
 
 RUN dnf install -y strace && dnf clean all
+
+COPY usr/ usr/
+
+# Bind the httpd container image
+RUN ln -sr /usr/share/containers/systemd/httpd.container /usr/lib/bootc/bound-images.d/

@@ -1,0 +1,15 @@
+[Unit]
+Description=CentOS Connect Demo httpd server
+
+[Container]
+GlobalArgs=--storage-opt=additionalimagestore=/usr/lib/bootc/storage
+Image=ghcr.io/jmarrero/centos-connect-26-demo-httpd:2026-01-28
+PublishPort=80:80
+ReadOnly=true
+SecurityLabelDisable=true
+Tmpfs=/run
+Tmpfs=/tmp
+Tmpfs=/var/log/httpd
+
+[Install]
+WantedBy=default.target
