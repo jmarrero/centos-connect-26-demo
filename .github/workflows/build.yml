@@ -4,9 +4,9 @@ on:
   schedule:
     - cron: "21 21 * * *"
   push:
-    branches: ["main"]
+    branches: ["app-container"]
   pull_request:
-    branches: ["main"]
+    branches: ["app-container"]
 
 env:
   REGISTRY: ghcr.io
@@ -26,17 +26,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4.1.1
 
-      - name: Generate date tag
-        id: date
-        run: echo "tag=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
-
       - name: Build container image
         uses: redhat-actions/buildah-build@v2.13
         with:
           context: "."
           containerfiles: Containerfile
           image: centos-connect-26-demo-httpd
-          tags: "latest ${{ steps.date.outputs.tag }}"
+          tags: "26"
           layers: false
           oci: true
 
@@ -45,7 +41,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2.6
         with:
           image: centos-connect-26-demo-httpd
-          tags: "latest ${{ steps.date.outputs.tag }}"
+          tags: "26"
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
@@ -76,7 +72,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2.6
         with:
           image: centos-connect-26-demo-host
-          tags: "latest"
+          tags: "26"
           registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
