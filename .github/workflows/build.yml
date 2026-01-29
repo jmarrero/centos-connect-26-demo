@@ -64,6 +64,7 @@ jobs:
           context: "./host"
           containerfiles: host/Containerfile
           image: centos-connect-26-demo-host
+          tags: "26"
           layers: false
           oci: true
 
